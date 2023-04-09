@@ -1,29 +1,27 @@
 // Copyright 2022 NNTU-CS
 #ifndef INCLUDE_TPQUEUE_H_
 #define INCLUDE_TPQUEUE_H_
+#include <cassert>
 
 template<typename T, int size>
 class TPQueue {
-  private:
+ private:
   int beginQueue, endQueue, counter, sizeMaxQueue;
   T* arr;
-  
-  public:
+
+ public:
   TPQueue():beginQueue(0), endQueue(0), counter(0), sizeMaxQueue(size) {
     arr = new T[sizeMaxQueue+1];
- 
-  bool isEmpty() const {
+  }
+    bool isEmpty() const {
     return 0 == counter;
   }
-
   bool isFull() const {
-    return sizeMaxQueue == counter;
+    return sizeMaxQueue == counter ;
   }
-
   ~TPQueue() {
     delete[] arr;
   }
-  
   void push(const T& value) {
     int current = endQueue;
     assert(sizeMaxQueue > counter);
@@ -39,11 +37,11 @@ class TPQueue {
         arr[i] = arr[i - 1];
       }
     }
-    arr[current] = value;
+    arr[current] = value ;
     counter++;
     endQueue++;
     if (endQueue > sizeMaxQueue) {
-      endQueue -= sizeMaxQueue + 1; 
+      endQueue -= sizeMaxQueue + 1;
     }
   }
   
@@ -56,9 +54,9 @@ class TPQueue {
     return arr[beginQueue++];
   }
   
-  const T& get() {
-    assert(counter > 0);
-    return arr[beginQueue];
+  char get() const {
+    assert(count > 0);
+    return arr[beginQueue].ch;
   }
 };
 
