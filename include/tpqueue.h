@@ -13,27 +13,35 @@ class TPQueue {
   TPQueue():beginQueue(0), endQueue(0), counter(0), sizeMaxQueue(size) {
     arr = new T[sizeMaxQueue+1];
   }
+  bool isEmpty() const {
+    return 0 == counter;
+  }
+  bool isFull() const {
+    return sizeMaxQueue == counter;
+  }
   ~TPQueue() {
     delete[] arr;
   }
-  void push(const T& value) {
-    int current = endQueue;
-    assert(sizeMaxQueue > counter);
-    if (counter != 0) {
-      for (int i = beginQueue; i < endQueue; i++) {
-        if (value.prior > arr[i].prior) {
-          current = i;
-        }
+  void push(const T& item) {
+    assert(counter < sizeMaxQueue);
+    if (counter == 0) {
+      arr[endQueue++] = item;
+      counter++;
+    } else {
+      int i = endQueue - 1;
+      bool flag = 0;
+      while (i >= beginQueue && item.prior > arr[i].prior) {
+        flag = 1;
+        arr[i + 1] = arr[i];
+        arr[i] = item;
+        i--;
       }
-    }
-    if (counter != 0) {
-      for (int i = endQueue; i > current; i--) {
-        arr[i] = arr[i - 1];
+      if (flag == 0) {
+        arr[endQueue] = item;
       }
+      endQueue++;
+      counter++;
     }
-    arr[current] = value;
-    counter++;
-    endQueue++;
     if (endQueue > sizeMaxQueue) {
       endQueue -= sizeMaxQueue + 1;
     }
@@ -49,12 +57,6 @@ class TPQueue {
   char get() const {
     assert(count > 0);
     return arr[beginQueue].ch;
-  }
-  bool isEmpty() const {
-    return 0 == counter;
-  }
-  bool isFull() const {
-    return sizeMaxQueue == counter;
   }
 };
 
