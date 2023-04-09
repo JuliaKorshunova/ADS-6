@@ -13,12 +13,6 @@ class TPQueue {
   TPQueue():beginQueue(0), endQueue(0), counter(0), sizeMaxQueue(size) {
     arr = new T[sizeMaxQueue+1];
   }
-    bool isEmpty() const {
-    return 0 == counter;
-  }
-  bool isFull() const {
-    return sizeMaxQueue == counter ;
-  }
   ~TPQueue() {
     delete[] arr;
   }
@@ -37,14 +31,13 @@ class TPQueue {
         arr[i] = arr[i - 1];
       }
     }
-    arr[current] = value ;
+    arr[current] = value;
     counter++;
     endQueue++;
     if (endQueue > sizeMaxQueue) {
       endQueue -= sizeMaxQueue + 1;
     }
   }
-  
   const T& pop() {
     assert(counter > 0);
     counter--;
@@ -53,10 +46,15 @@ class TPQueue {
     }
     return arr[beginQueue++];
   }
-  
   char get() const {
     assert(count > 0);
     return arr[beginQueue].ch;
+  }
+  bool isEmpty() const {
+    return 0 == counter;
+  }
+  bool isFull() const {
+    return sizeMaxQueue == counter;
   }
 };
 
